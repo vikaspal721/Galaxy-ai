@@ -41,7 +41,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
         >
-          <header className="border-b">
+          {/* <header className="border-b">
             <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
               <h1 className="text-xl font-bold">Workflow AI</h1>
               <div className="flex items-center gap-4">
@@ -62,7 +62,7 @@ export default function RootLayout({
                 </SignedIn>
               </div>
             </div>
-          </header>
+          </header> */}
           {children}
         </body>
       </html>

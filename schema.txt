@@ -1,11 +1,15 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
+// ================================
+// ENUMS
+// ================================
 
 enum ExecutionStatus {
   pending
@@ -34,6 +38,10 @@ enum AssetType {
   audio
 }
 
+// ================================
+// 1) User
+// ================================
+
 model User {
   id          String   @id @default(uuid())
   clerkUserId String   @unique
@@ -47,6 +55,10 @@ model User {
   @@index([clerkUserId])
   @@index([email])
 }
+
+// ================================
+// 2) Workflow
+// ================================
 
 model Workflow {
   id        String   @id @default(uuid())
@@ -66,6 +78,10 @@ model Workflow {
   @@index([createdAt])
 }
 
+// ================================
+// 3) WorkflowNode
+// ================================
+
 model WorkflowNode {
   id         String   @id @default(uuid())
   workflowId String
@@ -80,6 +96,10 @@ model WorkflowNode {
   @@index([workflowId])
   @@index([type])
 }
+
+// ================================
+// 4) WorkflowEdge
+// ================================
 
 model WorkflowEdge {
   id           String  @id @default(uuid())
@@ -96,6 +116,10 @@ model WorkflowEdge {
   @@index([targetNodeId])
 }
 
+// ================================
+// 5) WorkflowViewport
+// ================================
+
 model WorkflowViewport {
   id         String @id @default(uuid())
   workflowId String @unique
@@ -105,6 +129,10 @@ model WorkflowViewport {
 
   workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
+
+// ================================
+// 6) WorkflowExecution
+// ================================
 
 model WorkflowExecution {
   id            String          @id @default(uuid())
@@ -126,6 +154,10 @@ model WorkflowExecution {
   @@index([status])
   @@index([startedAt])
 }
+
+// ================================
+// 7) NodeExecution
+// ================================
 
 model NodeExecution {
   id                  String              @id @default(uuid())
@@ -150,6 +182,10 @@ model NodeExecution {
   @@index([status])
 }
 
+// ================================
+// 8) ProviderAttempt
+// ================================
+
 model ProviderAttempt {
   id              String                @id @default(uuid())
   nodeExecutionId String
@@ -164,6 +200,10 @@ model ProviderAttempt {
   @@index([provider])
 }
 
+// ================================
+// 9) Asset
+// ================================
+
 model Asset {
   id              String    @id @default(uuid())
   nodeExecutionId String
@@ -176,6 +216,10 @@ model Asset {
   @@index([nodeExecutionId])
   @@index([type])
 }
+
+// ================================
+// 10) CreditTransaction
+// ================================
 
 model CreditTransaction {
   id                  String   @id @default(uuid())
@@ -192,4 +236,3 @@ model CreditTransaction {
   @@index([workflowExecutionId])
   @@index([createdAt])
 }
-

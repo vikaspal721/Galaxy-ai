@@ -5,9 +5,11 @@ import { WorkflowEdge } from "@/types/workflow";
 interface WorkflowState {
   nodes: BaseNode[];
   edges: WorkflowEdge[];
+  name: string;
   viewport: { x: number; y: number; zoom: number };
   setNodes: (nodes: BaseNode[]) => void;
   setEdges: (edges: WorkflowEdge[]) => void;
+  setName: (name: string) => void;
   addNode: (node: BaseNode) => void;
   updateNode: (id: string, updates: Partial<BaseNode>) => void;
   deleteNode: (id: string) => void;
@@ -20,9 +22,11 @@ interface WorkflowState {
 export const useWorkflowStore = create<WorkflowState>((set) => ({
   nodes: [],
   edges: [],
+  name: "Untitled Workflow",
   viewport: { x: 0, y: 0, zoom: 1 },
   setNodes: (nodes) => set({ nodes }),
   setEdges: (edges) => set({ edges }),
+  setName: (name) => set({ name }),
   addNode: (node) => set((state) => ({ nodes: [...state.nodes, node] })),
   updateNode: (id, updates) =>
     set((state) => ({
@@ -36,5 +40,5 @@ export const useWorkflowStore = create<WorkflowState>((set) => ({
   addEdge: (edge) => set((state) => ({ edges: [...state.edges, edge] })),
   deleteEdge: (id) => set((state) => ({ edges: state.edges.filter((edge) => edge.id !== id) })),
   setViewport: (viewport) => set({ viewport }),
-  reset: () => set({ nodes: [], edges: [], viewport: { x: 0, y: 0, zoom: 1 } }),
+  reset: () => set({ nodes: [], edges: [], name: "Untitled Workflow", viewport: { x: 0, y: 0, zoom: 1 } }),
 }));

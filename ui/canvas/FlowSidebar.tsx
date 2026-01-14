@@ -15,15 +15,39 @@ const NODE_ITEMS: Array<{
   label: string;
   icon: React.ElementType;
 }> = [
-  { type: "seedream", label: "Seedream", icon: RiImageAiLine },
-  { type: "seedance", label: "Seedance", icon: RiVideoAiLine },
-  { type: "openrouter", label: "OpenRouter", icon: RiChat3Line },
-  { type: "elevenlabs", label: "ElevenLabs", icon: FiMusic },
-  { type: "crop-image", label: "Crop Image", icon: FiCrop },
-  { type: "merge-video", label: "Merge Video", icon: FiLayers },
+  {
+    type: "seedream",
+    label: "Seedream",
+    icon: RiImageAiLine,
+  },
+  {
+    type: "seedance",
+    label: "Seedance",
+    icon: RiVideoAiLine,
+  },
+  {
+    type: "openrouter",
+    label: "OpenRouter",
+    icon: RiChat3Line,
+  },
+  {
+    type: "elevenlabs",
+    label: "ElevenLabs",
+    icon: FiMusic,
+  },
+  {
+    type: "crop-image",
+    label: "Crop Image",
+    icon: FiCrop,
+  },
+  {
+    type: "merge-video",
+    label: "Merge Video",
+    icon: FiLayers,
+  },
 ];
 
-export function NodePalette() {
+export function FlowSidebar() {
   const { addNode } = useWorkflowStore();
 
   const handleDragStart = useCallback(
@@ -40,7 +64,7 @@ export function NodePalette() {
         id: `${type}-${Date.now()}`,
         type,
         position: { x: 200, y: 200 },
-        data: {},
+        data: { label: type },
         status: "idle",
       };
       addNode(node);
@@ -50,27 +74,35 @@ export function NodePalette() {
 
   return (
     <div className="h-full flex flex-col text-white">
+    
+
       <div className="flex-1 p-3 overflow-y-auto">
         <div className="grid grid-cols-2 gap-2">
-          {NODE_ITEMS.map(({ type, icon: Icon }) => (
+          {NODE_ITEMS.map(({ type, label, icon: Icon }) => (
             <div
               key={type}
               draggable
               onDragStart={(e) => handleDragStart(e, type)}
               onClick={() => handleAddNode(type)}
               className="
-                group flex items-center justify-center
-                aspect-square rounded-xl
+                group flex flex-col items-center justify-center
+                aspect-square rounded-[3px]
                 cursor-pointer
+               
                 border border-[#2a2a2a]
-                hover:border-[#efc3c3]
+                hover:border-[#404040]
+                hover:bg-[#343131]
                 transition-all duration-200
                 p-4
               "
             >
-              <div className="text-white/80 group-hover:text-white transition-colors">
-                <Icon size={18} />
+              <div className="text-white/80 group-hover:text-white mb-3 transition-colors">
+                <Icon size={19} />
               </div>
+
+              <span className="text-[11px] font-medium text-white/80 group-hover:text-white text-center leading-tight transition-colors">
+                {label}
+              </span>
             </div>
           ))}
         </div>
